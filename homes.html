@@ -14,10 +14,10 @@
 <label><span>Property type</span><select id="filterType"><option value="all">Any type</option><option value="apartment">Apartment</option><option value="house">House</option></select></label>
 <label><span>Min price</span><select id="filterMin"><option value="0">No minimum</option><option value="400000">€400k</option><option value="450000">€450k</option><option value="500000">€500k</option></select></label>
 <label><span>Max price</span><select id="filterMax"><option value="99999999">No maximum</option><option value="450000">€450k</option><option value="500000">€500k</option><option value="600000">€600k</option></select></label>
-<label><span>Bedrooms</span><select id="filterBeds"><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label>
+<label><span>Bedrooms</span><select id="filterBeds"><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label><label><span>Listing</span><select id="filterStatus"><option value="all">Buy or rent</option><option value="sale">For sale</option><option value="rent">For rent</option></select></label>
 <button id="applyFilters" type="button">Search homes ↗</button>
 </div>
-<div class="filter-summary"><strong id="resultCount">3</strong> illustrative examples <button id="clearFilters" type="button">Clear filters</button></div>
+<div class="filter-toolbar"><div class="filter-summary"><strong id="resultCount">3</strong> illustrative examples</div><label class="sort-control"><span>Sort</span><select id="sortBy"><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="beds-high">Bedrooms: most first</option></select></label><button id="clearFilters" type="button">Clear filters</button></div>
 <div class="search-results-grid" id="propertyResults"></div>
 <p class="article-note">The current inventory is illustrative while Homes in Belgium is being prepared for live listings. Prices, specifications and availability are not verified offers.</p>
 </section>
@@ -31,16 +31,17 @@
 <footer><div class="footer-brand">Homes <span>in</span> Belgium</div><p>Homes, neighborhoods &amp; living guides across Belgium.</p><div class="footer-links"><a href="/privacy.html">Privacy</a><a href="/contact.html">Contact</a><a href="/advertise.html">Advertise</a></div></footer>
 <script>
 const properties=[
-{title:"Refined city apartment",city:"brussels",cityName:"Brussels",type:"apartment",typeName:"Apartment",price:425000,beds:2,baths:1,priceLabel:"€425,000",url:"/properties/brussels-refined-city-apartment.html",image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1100&q=80"},
-{title:"Light-filled Antwerp townhouse",city:"antwerp",cityName:"Antwerp",type:"house",typeName:"House",price:589000,beds:3,baths:2,priceLabel:"€589,000",url:"/properties/antwerp-townhouse.html",image:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1100&q=80"},
-{title:"Character home near Ghent",city:"ghent",cityName:"Ghent",type:"house",typeName:"House",price:472000,beds:3,baths:2,priceLabel:"€472,000",url:"/properties/ghent-character-home.html",image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1100&q=80"}];
+{title:"Refined city apartment",city:"brussels",cityName:"Brussels",type:"apartment",typeName:"Apartment",status:"sale",statusName:"For sale",price:425000,beds:2,baths:1,area:86,areaLabel:"86 m²",priceLabel:"€425,000",url:"/properties/brussels-refined-city-apartment.html",image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1100&q=80"},
+{title:"Light-filled Antwerp townhouse",city:"antwerp",cityName:"Antwerp",type:"house",typeName:"House",status:"sale",statusName:"For sale",price:589000,beds:3,baths:2,area:142,areaLabel:"142 m²",priceLabel:"€589,000",url:"/properties/antwerp-townhouse.html",image:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1100&q=80"},
+{title:"Character home near Ghent",city:"ghent",cityName:"Ghent",type:"house",typeName:"House",status:"rent",statusName:"For rent",price:1850,beds:3,baths:2,area:128,areaLabel:"128 m²",priceLabel:"€1,850 / month",priceLabel:"€472,000",url:"/properties/ghent-character-home.html",image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1100&q=80"}];
 const $=id=>document.getElementById(id);
 function render(){
- const city=$("filterCity").value,type=$("filterType").value,min=+$("filterMin").value,max=+$("filterMax").value,beds=+$("filterBeds").value;
- const list=properties.filter(p=>(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds);
+ const city=$("filterCity").value,type=$("filterType").value,min=+$("filterMin").value,max=+$("filterMax").value,beds=+$("filterBeds").value,status=$("filterStatus").value,sort=$("sortBy").value;
+ const list=properties.filter(p=>(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds&&(status==="all"||p.status===status));
+ if(sort==="price-low") list.sort((a,b)=>a.price-b.price); else if(sort==="price-high") list.sort((a,b)=>b.price-a.price); else if(sort==="beds-high") list.sort((a,b)=>b.beds-a.beds);
  $("resultCount").textContent=list.length;
- $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.typeName+'</span></div><div class="result-copy"><small>ILLUSTRATIVE EXAMPLE · '+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
+ $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.statusName+' · '+p.typeName+'</span></div><div class="result-copy"><small>ILLUSTRATIVE EXAMPLE · '+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+' · '+p.areaLabel+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
 }
 $("applyFilters").addEventListener("click",render);["filterCity","filterType","filterMin","filterMax","filterBeds"].forEach(id=>$(id).addEventListener("change",render));
-$("clearFilters").addEventListener("click",()=>{["filterCity","filterType"].forEach(id=>$(id).value="all");$("filterMin").value="0";$("filterMax").value="99999999";$("filterBeds").value="0";render()});render();
+$("clearFilters").addEventListener("click",()=>{["filterCity","filterType","filterStatus"].forEach(id=>$(id).value="all");$("filterMin").value="0";$("filterMax").value="99999999";$("filterBeds").value="0";$("sortBy").value="featured";render()});render();
 </script></body></html>
