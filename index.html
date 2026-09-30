@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Homes in Belgium — discover homes, neighborhoods and practical living guides across Belgium.">
+<title>Homes in Belgium — Find Your Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="#"><span>Homes</span><em>in</em><strong>Belgium</strong></a>
+<nav class="nav"><a href="#homes">Homes</a><a href="#cities">Cities</a><a href="#guides">Guides</a></nav>
+<a class="header-cta" href="#advertise">List a property</a>
+</header>
+<main>
+<section class="hero">
+<div class="hero-copy">
+<p class="eyebrow">BELGIUM PROPERTY &amp; LIVING</p>
+<h1>Find a home that feels <i>right.</i></h1>
+<p class="hero-text">Explore homes, neighborhoods and practical guides for living in Belgium — all in one calm, simple place.</p>
+<form class="search" id="searchForm">
+<label><span>What are you looking for?</span><select id="type"><option value="all">Any property</option><option value="apartment">Apartment</option><option value="house">House</option></select></label>
+<label><span>Where?</span><select id="city"><option value="all">Anywhere in Belgium</option><option value="brussels">Brussels</option><option value="antwerp">Antwerp</option><option value="ghent">Ghent</option><option value="bruges">Bruges</option></select></label>
+<button type="submit">Search homes <span>↗</span></button>
+</form>
+</div>
+<div class="hero-art" aria-label="Stylized Belgian home illustration"><div class="sun"></div><div class="house-card"><div class="roof"></div><div class="house-body"><div class="window"></div><div class="window small"></div><div class="door"></div></div><div class="tree tree-a"></div><div class="tree tree-b"></div></div></div>
+</section>
+<section class="section" id="homes">
+<div class="section-head"><div><p class="eyebrow">SELECTED HOMES</p><h2>Places worth a closer look.</h2></div><a href="#homes" class="text-link">View all homes ↗</a></div>
+<div class="homes-grid" id="homesGrid"></div>
+<div class="ad-slot"><span>Advertisement</span></div>
+</section>
+<section class="section" id="cities">
+<div class="section-head"><div><p class="eyebrow">EXPLORE BELGIUM</p><h2>Start with a city.</h2></div></div>
+<div class="city-grid">
+<a class="city city-brussels" href="#homes"><span>Brussels</span><small>Capital living</small></a>
+<a class="city city-antwerp" href="#homes"><span>Antwerp</span><small>City &amp; culture</small></a>
+<a class="city city-ghent" href="#homes"><span>Ghent</span><small>Historic &amp; lively</small></a>
+<a class="city city-bruges" href="#homes"><span>Bruges</span><small>Quiet &amp; iconic</small></a>
+</div>
+</section>
+<section class="section" id="guides">
+<div class="section-head"><div><p class="eyebrow">LIVING IN BELGIUM</p><h2>Useful guides before you move.</h2></div></div>
+<div class="guide-grid">
+<article><small>BUYING</small><h3>Buying a home in Belgium as a foreigner</h3><p>A practical starting point for understanding the process.</p><a href="#">Read guide ↗</a></article>
+<article><small>RENTING</small><h3>How renting works in Belgium</h3><p>Key questions to ask before signing a lease.</p><a href="#">Read guide ↗</a></article>
+<article><small>CITIES</small><h3>Best Belgian cities for international residents</h3><p>Compare lifestyle, transport and housing.</p><a href="#">Read guide ↗</a></article>
+</div>
+</section>
+<section class="ad-band" id="advertise"><div><p class="eyebrow">FOR PROPERTY PROFESSIONALS</p><h2>Put your properties in front of people looking to move.</h2></div><a class="button dark" href="mailto:hello@homesinbelgium.com">Advertise with us ↗</a></section>
+</main>
+<footer><div class="footer-brand">Homes <span>in</span> Belgium</div><p>Homes, neighborhoods &amp; living guides across Belgium.</p><div class="footer-links"><a href="#">Privacy</a><a href="#">Contact</a><a href="#">Advertise</a></div></footer>
+<script src="script.js"></script>
+</body>
+</html>
