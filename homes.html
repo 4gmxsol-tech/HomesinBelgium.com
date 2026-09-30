@@ -39,6 +39,7 @@ const properties=[
 {title:"Brussels rental apartment",city:"brussels",cityName:"Brussels",type:"apartment",typeName:"Apartment",status:"rent",statusName:"For rent",price:1650,beds:1,baths:1,area:62,areaLabel:"62 m²",priceLabel:"€1,650 / month",url:"/properties/brussels-rental-apartment.html",image:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1100&q=80"},
 {title:"Antwerp rental home",city:"antwerp",cityName:"Antwerp",type:"house",typeName:"House",status:"rent",statusName:"For rent",price:2250,beds:3,baths:2,area:128,areaLabel:"128 m²",priceLabel:"€2,250 / month",url:"/properties/antwerp-rental-home.html",image:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1100&q=80"}];
 const $=id=>document.getElementById(id);
+const params=new URLSearchParams(window.location.search);
 const favoriteKey="hib-favorites";
 let favorites=JSON.parse(localStorage.getItem(favoriteKey)||"[]");
 function updateFavoriteUI(){ $("favoriteCount").textContent=favorites.length; $("showFavorites").setAttribute("aria-pressed",$("showFavorites").dataset.active==="true"); }
@@ -64,6 +65,11 @@ function render(){
 $("propertyResults").addEventListener("click",e=>{const b=e.target.closest("[data-favorite]");if(b){e.preventDefault();e.stopPropagation();toggleFavorite(b.dataset.favorite);}});
 $("showFavorites").dataset.active="false";
 $("showFavorites").addEventListener("click",()=>{$("showFavorites").dataset.active=$("showFavorites").dataset.active==="true"?"false":"true";updateFavoriteUI();render();});
+const initialCity=params.get("city"),initialType=params.get("type"),initialStatus=params.get("status"),initialBeds=params.get("beds");
+if(initialCity && [...$("filterCity").options].some(o=>o.value===initialCity)) $("filterCity").value=initialCity;
+if(initialType && [...$("filterType").options].some(o=>o.value===initialType)) $("filterType").value=initialType;
+if(initialStatus && [...$("filterStatus").options].some(o=>o.value===initialStatus)) $("filterStatus").value=initialStatus;
+if(initialBeds && [...$("filterBeds").options].some(o=>o.value===initialBeds)) $("filterBeds").value=initialBeds;
 updateFavoriteUI();
 $("applyFilters").addEventListener("click",render);["filterCity","filterType","filterMin","filterMax","filterBeds"].forEach(id=>$(id).addEventListener("change",render));$("filterStatus").addEventListener("change",()=>{syncPriceControls();render()});
 $("clearFilters").addEventListener("click",()=>{["filterCity","filterType","filterStatus"].forEach(id=>$(id).value="all");$("filterBeds").value="0";$("sortBy").value="featured";syncPriceControls();render()});syncPriceControls();render();
