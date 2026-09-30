@@ -17,7 +17,7 @@
 <label><span>Bedrooms</span><select id="filterBeds"><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label><label><span>Listing</span><select id="filterStatus"><option value="all">Buy or rent</option><option value="sale">For sale</option><option value="rent">For rent</option></select></label>
 <button id="applyFilters" type="button">Search homes ↗</button>
 </div>
-<div class="filter-toolbar"><div class="filter-summary"><strong id="resultCount">3</strong> illustrative examples</div><label class="sort-control"><span>Sort</span><select id="sortBy"><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="beds-high">Bedrooms: most first</option></select></label><button id="clearFilters" type="button">Clear filters</button></div>
+<div class="filter-toolbar"><div class="filter-summary"><strong id="resultCount">7</strong> illustrative examples</div><div class="filter-actions"><button id="showFavorites" type="button" aria-pressed="false">♡ Favorites <span id="favoriteCount">0</span></button><button id="clearFilters" type="button">Clear filters</button></div><label class="sort-control"><span>Sort</span><select id="sortBy"><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="beds-high">Bedrooms: most first</option></select></label></div>
 <div class="search-results-grid" id="propertyResults"></div>
 <p class="article-note">The current inventory is illustrative while Homes in Belgium is being prepared for live listings. Prices, specifications and availability are not verified offers.</p>
 </section>
@@ -39,6 +39,10 @@ const properties=[
 {title:"Brussels rental apartment",city:"brussels",cityName:"Brussels",type:"apartment",typeName:"Apartment",status:"rent",statusName:"For rent",price:1650,beds:1,baths:1,area:62,areaLabel:"62 m²",priceLabel:"€1,650 / month",url:"/properties/brussels-rental-apartment.html",image:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1100&q=80"},
 {title:"Antwerp rental home",city:"antwerp",cityName:"Antwerp",type:"house",typeName:"House",status:"rent",statusName:"For rent",price:2250,beds:3,baths:2,area:128,areaLabel:"128 m²",priceLabel:"€2,250 / month",url:"/properties/antwerp-rental-home.html",image:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1100&q=80"}];
 const $=id=>document.getElementById(id);
+const favoriteKey="hib-favorites";
+let favorites=JSON.parse(localStorage.getItem(favoriteKey)||"[]");
+function updateFavoriteUI(){ $("favoriteCount").textContent=favorites.length; $("showFavorites").setAttribute("aria-pressed",$("showFavorites").dataset.active==="true"); }
+function toggleFavorite(url){ favorites=favorites.includes(url)?favorites.filter(x=>x!==url):[...favorites,url]; localStorage.setItem(favoriteKey,JSON.stringify(favorites)); render(); updateFavoriteUI(); }
 function syncPriceControls(){
  const rent=$("filterStatus").value==="rent";
  $("minPriceLabel").textContent=rent?"Min monthly rent":"Min price";
@@ -51,12 +55,16 @@ function syncPriceControls(){
  min.value="0"; max.value="99999999";
 }
 function render(){
- const city=$("filterCity").value,type=$("filterType").value,min=+$("filterMin").value,max=+$("filterMax").value,beds=+$("filterBeds").value,status=$("filterStatus").value,sort=$("sortBy").value;
- const list=properties.filter(p=>(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds&&(status==="all"||p.status===status));
+ const city=$("filterCity").value,type=$("filterType").value,min=+$("filterMin").value,max=+$("filterMax").value,beds=+$("filterBeds").value,status=$("filterStatus").value,sort=$("sortBy").value,onlyFavorites=$("showFavorites").dataset.active==="true";
+ const list=properties.filter(p=>(!onlyFavorites||favorites.includes(p.url))&&(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds&&(status==="all"||p.status===status));
  if(sort==="price-low") list.sort((a,b)=>a.price-b.price); else if(sort==="price-high") list.sort((a,b)=>b.price-a.price); else if(sort==="beds-high") list.sort((a,b)=>b.beds-a.beds);
  $("resultCount").textContent=list.length;
- $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.statusName+' · '+p.typeName+'</span></div><div class="result-copy"><small>ILLUSTRATIVE EXAMPLE · '+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+' · '+p.areaLabel+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
+ $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.statusName+' · '+p.typeName+'</span></div><div class="result-copy"><button class="favorite-button" type="button" data-favorite="'+p.url+'" aria-label="'+(favorites.includes(p.url)?"Remove from favorites":"Save to favorites")+'">'+(favorites.includes(p.url)?"♥":"♡")+'</button><small>ILLUSTRATIVE EXAMPLE · '+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+' · '+p.areaLabel+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
 }
+$("propertyResults").addEventListener("click",e=>{const b=e.target.closest("[data-favorite]");if(b){e.preventDefault();e.stopPropagation();toggleFavorite(b.dataset.favorite);}});
+$("showFavorites").dataset.active="false";
+$("showFavorites").addEventListener("click",()=>{$("showFavorites").dataset.active=$("showFavorites").dataset.active==="true"?"false":"true";updateFavoriteUI();render();});
+updateFavoriteUI();
 $("applyFilters").addEventListener("click",render);["filterCity","filterType","filterMin","filterMax","filterBeds"].forEach(id=>$(id).addEventListener("change",render));$("filterStatus").addEventListener("change",()=>{syncPriceControls();render()});
 $("clearFilters").addEventListener("click",()=>{["filterCity","filterType","filterStatus"].forEach(id=>$(id).value="all");$("filterBeds").value="0";$("sortBy").value="featured";syncPriceControls();render()});syncPriceControls();render();
 </script></body></html>
