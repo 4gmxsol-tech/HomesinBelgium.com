@@ -23,10 +23,8 @@ document.getElementById("searchForm").addEventListener("submit",function(e){
   e.preventDefault();
   const type=document.getElementById("type").value;
   const city=document.getElementById("city").value;
-  const filtered=homes.filter(h=>(type==="all"||h.type===type)&&(city==="all"||h.city===city));
-  render(filtered);
-  note.textContent=filtered.length
-    ? "Showing "+filtered.length+" illustrative example"+(filtered.length===1?"":"s")+" matching your search."
-    : "No illustrative examples match this search yet.";
-  document.getElementById("homes").scrollIntoView({behavior:"smooth"});
+  const params=new URLSearchParams();
+  if(type!=="all") params.set("type",type);
+  if(city!=="all") params.set("city",city);
+  window.location.href="/homes.html"+(params.toString()?"?"+params.toString():"");
 });
