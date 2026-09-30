@@ -1,1 +1,46 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Explore property topics and selected home examples across Belgium."><link rel="canonical" href="https://homesinbelgium.com/homes.html"><title>Homes & Property in Belgium | Homes in Belgium</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><a class="brand" href="/"><span>Homes</span><em>in</em><strong>Belgium</strong></a><nav class="nav"><a href="/#homes">Homes</a><a href="/#cities">Cities</a><a href="/#guides">Guides</a></nav><a class="header-cta" href="/advertise.html">List a property</a></header><main><section class="city-page-hero"><p class="eyebrow">BELGIAN PROPERTY</p><h1>Explore homes by place and property type.</h1><p>Browse our current property topics while the platform is prepared for live inventory.</p></section><section class="section"><div class="guide-grid city-links"><a href="/seo/apartments-in-brussels.html"><small>BRUSSELS</small><h3>Apartments in Brussels</h3><p>Focused information for apartment searches in the capital.</p></a><a href="/seo/houses-in-brussels.html"><small>BRUSSELS</small><h3>Houses in Brussels</h3><p>Explore house-buying topics around Brussels.</p></a><a href="/seo/rentals-in-brussels.html"><small>BRUSSELS</small><h3>Rentals in Brussels</h3><p>Practical rental information for Brussels.</p></a><a href="/seo/apartments-in-antwerp.html"><small>ANTWERP</small><h3>Apartments in Antwerp</h3><p>Start your Antwerp apartment research.</p></a><a href="/seo/houses-in-antwerp.html"><small>ANTWERP</small><h3>Houses in Antwerp</h3><p>Explore house-related property topics.</p></a><a href="/seo/rentals-in-antwerp.html"><small>ANTWERP</small><h3>Rentals in Antwerp</h3><p>Practical rental information for Antwerp.</p></a><a href="/seo/homes-in-ghent.html"><small>GHENT</small><h3>Homes in Ghent</h3><p>Discover the Ghent housing market by topic.</p></a><a href="/seo/homes-in-bruges.html"><small>BRUGES</small><h3>Homes in Bruges</h3><p>Explore homes and living considerations in Bruges.</p></a><a href="/seo/homes-in-leuven.html"><small>LEUVEN</small><h3>Homes in Leuven</h3><p>Start researching property in Leuven.</p></a></div></section><section class="section" id="selected-properties"><div class="section-head"><div><p class="eyebrow">SELECTED EXAMPLES</p><h2>See the property experience.</h2></div><a href="/#homes" class="text-link">Back to homepage ↗</a></div><div class="guide-grid city-links"><a href="/properties/brussels-refined-city-apartment.html"><small>BRUSSELS · APARTMENT</small><h3>Refined city apartment</h3><p>€425,000 · 2 bedrooms · illustrative example.</p></a><a href="/properties/antwerp-townhouse.html"><small>ANTWERP · HOUSE</small><h3>Light-filled Antwerp townhouse</h3><p>€589,000 · 3 bedrooms · illustrative example.</p></a><a href="/properties/ghent-character-home.html"><small>GHENT · HOUSE</small><h3>Character home near Ghent</h3><p>€472,000 · 3 bedrooms · illustrative example.</p></a></div></section></main><footer><div class="footer-brand">Homes <span>in</span> Belgium</div><p>Homes, neighborhoods &amp; living guides across Belgium.</p><div class="footer-links"><a href="/privacy.html">Privacy</a><a href="/contact.html">Contact</a><a href="/advertise.html">Advertise</a></div></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Search illustrative homes in Belgium by city, property type, price and bedrooms.">
+<meta name="robots" content="index,follow"><link rel="canonical" href="https://homesinbelgium.com/homes.html">
+<title>Search Homes in Belgium | Homes in Belgium</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header class="site-header"><a class="brand" href="/"><span>Homes</span><em>in</em><strong>Belgium</strong></a><nav class="nav"><a href="/homes.html">Homes</a><a href="/#cities">Cities</a><a href="/#guides">Guides</a><a href="/journal.html">Journal</a></nav><a class="header-cta" href="/advertise.html">List a property</a></header>
+<main>
+<section class="city-page-hero"><p class="eyebrow">BELGIAN PROPERTY SEARCH</p><h1>Find the right kind of home.</h1><p>Filter the current illustrative examples by location, type, budget and bedrooms.</p></section>
+<section class="section property-search-section">
+<div class="property-search-bar" aria-label="Property filters">
+<label><span>City</span><select id="filterCity"><option value="all">Any city</option><option value="brussels">Brussels</option><option value="antwerp">Antwerp</option><option value="ghent">Ghent</option><option value="bruges">Bruges</option><option value="leuven">Leuven</option></select></label>
+<label><span>Property type</span><select id="filterType"><option value="all">Any type</option><option value="apartment">Apartment</option><option value="house">House</option></select></label>
+<label><span>Min price</span><select id="filterMin"><option value="0">No minimum</option><option value="400000">€400k</option><option value="450000">€450k</option><option value="500000">€500k</option></select></label>
+<label><span>Max price</span><select id="filterMax"><option value="99999999">No maximum</option><option value="450000">€450k</option><option value="500000">€500k</option><option value="600000">€600k</option></select></label>
+<label><span>Bedrooms</span><select id="filterBeds"><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label>
+<button id="applyFilters" type="button">Search homes ↗</button>
+</div>
+<div class="filter-summary"><strong id="resultCount">3</strong> illustrative examples <button id="clearFilters" type="button">Clear filters</button></div>
+<div class="search-results-grid" id="propertyResults"></div>
+<p class="article-note">The current inventory is illustrative while Homes in Belgium is being prepared for live listings. Prices, specifications and availability are not verified offers.</p>
+</section>
+<section class="section"><div class="section-head"><div><p class="eyebrow">PROPERTY TOPICS</p><h2>Continue your research.</h2></div></div>
+<div class="guide-grid city-links">
+<a href="/seo/apartments-in-brussels.html"><small>BRUSSELS</small><h3>Apartments in Brussels</h3><p>Focused information for apartment searches.</p></a>
+<a href="/seo/houses-in-antwerp.html"><small>ANTWERP</small><h3>Houses in Antwerp</h3><p>Explore house-related property topics.</p></a>
+<a href="/seo/homes-in-ghent.html"><small>GHENT</small><h3>Homes in Ghent</h3><p>Start researching homes and living considerations.</p></a>
+</div></section>
+</main>
+<footer><div class="footer-brand">Homes <span>in</span> Belgium</div><p>Homes, neighborhoods &amp; living guides across Belgium.</p><div class="footer-links"><a href="/privacy.html">Privacy</a><a href="/contact.html">Contact</a><a href="/advertise.html">Advertise</a></div></footer>
+<script>
+const properties=[
+{title:"Refined city apartment",city:"brussels",cityName:"Brussels",type:"apartment",typeName:"Apartment",price:425000,beds:2,baths:1,priceLabel:"€425,000",url:"/properties/brussels-refined-city-apartment.html",image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1100&q=80"},
+{title:"Light-filled Antwerp townhouse",city:"antwerp",cityName:"Antwerp",type:"house",typeName:"House",price:589000,beds:3,baths:2,priceLabel:"€589,000",url:"/properties/antwerp-townhouse.html",image:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1100&q=80"},
+{title:"Character home near Ghent",city:"ghent",cityName:"Ghent",type:"house",typeName:"House",price:472000,beds:3,baths:2,priceLabel:"€472,000",url:"/properties/ghent-character-home.html",image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1100&q=80"}];
+const $=id=>document.getElementById(id);
+function render(){
+ const city=$("filterCity").value,type=$("filterType").value,min=+$("filterMin").value,max=+$("filterMax").value,beds=+$("filterBeds").value;
+ const list=properties.filter(p=>(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds);
+ $("resultCount").textContent=list.length;
+ $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.typeName+'</span></div><div class="result-copy"><small>ILLUSTRATIVE EXAMPLE · '+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
+}
+$("applyFilters").addEventListener("click",render);["filterCity","filterType","filterMin","filterMax","filterBeds"].forEach(id=>$(id).addEventListener("change",render));
+$("clearFilters").addEventListener("click",()=>{["filterCity","filterType"].forEach(id=>$(id).value="all");$("filterMin").value="0";$("filterMax").value="99999999";$("filterBeds").value="0";render()});render();
+</script></body></html>
