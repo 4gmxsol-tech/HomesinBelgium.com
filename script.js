@@ -8,7 +8,7 @@ async function loadHomes(){
     const response=await fetch("/data/listings.json",{cache:"no-store"});
     if(!response.ok) throw new Error("Listing data unavailable");
     const data=await response.json();
-    homes=(data.listings||[]).filter(h=>h && h.isIllustrative !== false).slice(0,3);
+    homes=(data.listings||[]).slice(0,3);
   }catch(error){
     homes=[];
     console.warn("Homes in Belgium homepage listing data could not be loaded.",error);
@@ -22,7 +22,7 @@ function render(items){
     document.getElementById("resetSearch").addEventListener("click",()=>{document.getElementById("type").value="all";document.getElementById("city").value="all";loadHomes().then(()=>render(homes));note.textContent="Showing selected examples. New inventory can be added as listings become available.";});
     return;
   }
-  grid.innerHTML=items.map(h=>'<article class="property"><a class="property-link" href="'+h.url+'"><div class="property-image" style="background-image:url("'+h.image+'")"><span class="badge">'+(h.type==="house"?"HOUSE":"APARTMENT")+'</span></div></a><div class="property-copy"><span class="sample-label">ILLUSTRATIVE EXAMPLE</span><h3>'+h.title+'</h3><p>'+cityNames[h.city]+' · '+h.meta+'</p><div class="price">'+h.price+'</div></div></article>').join("");
+  grid.innerHTML=items.map(h=>'<article class="property"><a class="property-link" href="'+h.url+'"><div class="property-image" style="background-image:url("'+h.image+'")"><span class="badge">'+(h.type==="house"?"HOUSE":"APARTMENT")+'</span></div></a><div class="property-copy"><span class="sample-label">'+(h.isIllustrative?"ILLUSTRATIVE EXAMPLE":"PARTNER LISTING")+'</span><h3>'+h.title+'</h3><p>'+cityNames[h.city]+' · '+h.meta+'</p><div class="price">'+h.price+'</div></div></article>').join("");
 }
 
 render(homes);
