@@ -55,6 +55,16 @@ function syncPriceControls(){
  max.innerHTML="<option value=\"99999999\">No maximum</option>"+labels.slice(1).map((x,i)=>"<option value=\""+values[i+1]+"\">"+x+"</option>").join("");
  min.value="0"; max.value="99999999";
 }
+function syncUrl(){
+ const p=new URLSearchParams();
+ const values=[["city","filterCity","all"],["type","filterType","all"],["status","filterStatus","all"],["beds","filterBeds","0"]];
+ values.forEach(([key,id,defaultValue])=>{const v=$(id).value;if(v!==defaultValue)p.set(key,v);});
+ const min=$("filterMin").value,max=$("filterMax").value;
+ if(min!=="0")p.set("min",min); if(max!=="99999999")p.set("max",max);
+ const sort=$("sortBy").value;if(sort!=="featured")p.set("sort",sort);
+ const url=p.toString()?window.location.pathname+"?"+p.toString():window.location.pathname;
+ window.history.replaceState(null,"",url);
+}
 function render(){
  const city=$("filterCity").value,type=$("filterType").value,min=+$("filterMin").value,max=+$("filterMax").value,beds=+$("filterBeds").value,status=$("filterStatus").value,sort=$("sortBy").value,onlyFavorites=$("showFavorites").dataset.active==="true";
  const list=properties.filter(p=>(!onlyFavorites||favorites.includes(p.url))&&(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds&&(status==="all"||p.status===status));
@@ -70,7 +80,12 @@ if(initialCity && [...$("filterCity").options].some(o=>o.value===initialCity)) $
 if(initialType && [...$("filterType").options].some(o=>o.value===initialType)) $("filterType").value=initialType;
 if(initialStatus && [...$("filterStatus").options].some(o=>o.value===initialStatus)) $("filterStatus").value=initialStatus;
 if(initialBeds && [...$("filterBeds").options].some(o=>o.value===initialBeds)) $("filterBeds").value=initialBeds;
+const initialMin=params.get("min"),initialMax=params.get("max"),initialSort=params.get("sort");
 updateFavoriteUI();
-$("applyFilters").addEventListener("click",render);["filterCity","filterType","filterMin","filterMax","filterBeds"].forEach(id=>$(id).addEventListener("change",render));$("filterStatus").addEventListener("change",()=>{syncPriceControls();render()});
-$("clearFilters").addEventListener("click",()=>{["filterCity","filterType","filterStatus"].forEach(id=>$(id).value="all");$("filterBeds").value="0";$("sortBy").value="featured";syncPriceControls();render()});syncPriceControls();render();
+$("applyFilters").addEventListener("click",()=>{syncUrl();render()});["filterCity","filterType","filterMin","filterMax","filterBeds"].forEach(id=>$(id).addEventListener("change",()=>{syncUrl();render()}));$("filterStatus").addEventListener("change",()=>{syncPriceControls();syncUrl();render()});$("sortBy").addEventListener("change",()=>{syncUrl();render()});
+$("clearFilters").addEventListener("click",()=>{["filterCity","filterType","filterStatus"].forEach(id=>$(id).value="all");$("filterBeds").value="0";$("sortBy").value="featured";syncPriceControls();render()});syncPriceControls();
+if(initialMin && [...$("filterMin").options].some(o=>o.value===initialMin)) $("filterMin").value=initialMin;
+if(initialMax && [...$("filterMax").options].some(o=>o.value===initialMax)) $("filterMax").value=initialMax;
+if(initialSort && [...$("sortBy").options].some(o=>o.value===initialSort)) $("sortBy").value=initialSort;
+syncUrl();render();
 </script></body></html>
