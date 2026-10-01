@@ -17,9 +17,9 @@
 <label><span>Bedrooms</span><select id="filterBeds"><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label><label><span>Listing</span><select id="filterStatus"><option value="all">Buy or rent</option><option value="sale">For sale</option><option value="rent">For rent</option></select></label>
 <button id="applyFilters" type="button">Search homes ↗</button>
 </div>
-<div class="filter-toolbar"><div class="filter-summary"><strong id="resultCount">7</strong> illustrative examples</div><div class="filter-actions"><button id="showFavorites" type="button" aria-pressed="false">♡ Favorites <span id="favoriteCount">0</span></button><button id="clearFilters" type="button">Clear filters</button></div><label class="sort-control"><span>Sort</span><select id="sortBy"><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="beds-high">Bedrooms: most first</option></select></label></div>
+<div class="filter-toolbar"><div class="filter-summary"><strong id="resultCount">0</strong> illustrative examples</div><div class="filter-actions"><button id="showFavorites" type="button" aria-pressed="false">♡ Favorites <span id="favoriteCount">0</span></button><button id="clearFilters" type="button">Clear filters</button></div><label class="sort-control"><span>Sort</span><select id="sortBy"><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="beds-high">Bedrooms: most first</option></select></label></div>
 <div class="search-results-grid" id="propertyResults"></div>
-<p class="article-note">The current inventory is illustrative while Homes in Belgium is being prepared for live listings. Prices, specifications and availability are not verified offers.</p>
+<p class="article-note">The current inventory is illustrative while Homes in Belgium is being prepared for live listings. Live inventory will carry source attribution, freshness information and partner authorization.</p>
 </section>
 <section class="section"><div class="section-head"><div><p class="eyebrow">PROPERTY TOPICS</p><h2>Continue your research.</h2></div></div>
 <div class="guide-grid city-links">
@@ -30,14 +30,18 @@
 </main>
 <footer><div class="footer-brand">Homes <span>in</span> Belgium</div><p>Homes, neighborhoods &amp; living guides across Belgium.</p><div class="footer-links"><a href="/privacy.html">Privacy</a><a href="/contact.html">Contact</a><a href="/advertise.html">Advertise</a></div></footer>
 <script>
-const properties=[
-{title:"Refined city apartment",city:"brussels",cityName:"Brussels",type:"apartment",typeName:"Apartment",status:"sale",statusName:"For sale",price:425000,beds:2,baths:1,area:86,areaLabel:"86 m²",priceLabel:"€425,000",url:"/properties/brussels-refined-city-apartment.html",image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1100&q=80"},
-{title:"Light-filled Antwerp townhouse",city:"antwerp",cityName:"Antwerp",type:"house",typeName:"House",status:"sale",statusName:"For sale",price:589000,beds:3,baths:2,area:142,areaLabel:"142 m²",priceLabel:"€589,000",url:"/properties/antwerp-townhouse.html",image:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1100&q=80"},
-{title:"Character home near Ghent",city:"ghent",cityName:"Ghent",type:"house",typeName:"House",status:"rent",statusName:"For rent",price:1850,beds:3,baths:2,area:128,areaLabel:"128 m²",priceLabel:"€1,850 / month",url:"/properties/ghent-rental-home.html",image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1100&q=80"},
-{title:"Bruges canal townhouse",city:"bruges",cityName:"Bruges",type:"house",typeName:"House",status:"sale",statusName:"For sale",price:515000,beds:3,baths:2,area:136,areaLabel:"136 m²",priceLabel:"€515,000",url:"/properties/bruges-canal-townhouse.html",image:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1100&q=80"},
-{title:"Modern apartment in Leuven",city:"leuven",cityName:"Leuven",type:"apartment",typeName:"Apartment",status:"sale",statusName:"For sale",price:365000,beds:2,baths:1,area:78,areaLabel:"78 m²",priceLabel:"€365,000",url:"/properties/leuven-modern-apartment.html",image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1100&q=80"},
-{title:"Brussels rental apartment",city:"brussels",cityName:"Brussels",type:"apartment",typeName:"Apartment",status:"rent",statusName:"For rent",price:1650,beds:1,baths:1,area:62,areaLabel:"62 m²",priceLabel:"€1,650 / month",url:"/properties/brussels-rental-apartment.html",image:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1100&q=80"},
-{title:"Antwerp rental home",city:"antwerp",cityName:"Antwerp",type:"house",typeName:"House",status:"rent",statusName:"For rent",price:2250,beds:3,baths:2,area:128,areaLabel:"128 m²",priceLabel:"€2,250 / month",url:"/properties/antwerp-rental-home.html",image:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1100&q=80"}];
+let properties=[];
+async function loadProperties(){
+  try{
+    const response=await fetch("/data/listings.json",{cache:"no-store"});
+    if(!response.ok) throw new Error("Listing data unavailable");
+    const data=await response.json();
+    properties=(data.listings||[]).filter(p=>p && p.isIllustrative !== false);
+  }catch(error){
+    properties=[];
+    console.warn("Homes in Belgium listing data could not be loaded.",error);
+  }
+}
 const $=id=>document.getElementById(id);
 const params=new URLSearchParams(window.location.search);
 const favoriteKey="hib-favorites";
