@@ -1,0 +1,18 @@
+[
+  {
+    "id": "example-001",
+    "title": "Example partner apartment",
+    "city": "Brussels",
+    "type": "apartment",
+    "status": "sale",
+    "price": 399000,
+    "currency": "EUR",
+    "beds": 2,
+    "baths": 1,
+    "area": 82,
+    "areaUnit": "m²",
+    "image": "https://example.com/images/example-001.jpg",
+    "url": "https://example.com/listings/example-001",
+    "availabilityStatus": "active"
+  }
+]
