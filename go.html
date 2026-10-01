@@ -3,17 +3,46 @@
 <body><main class="article"><p class="eyebrow">HOMES IN BELGIUM</p><h1>Opening listing…</h1><p class="lead" id="status">Preparing the partner destination.</p><p><a class="button" id="fallback" href="/">Return to Homes in Belgium</a></p></main>
 <script>
 const params=new URLSearchParams(location.search);
-const target=params.get("url");
 const listingId=params.get("listing");
 const campaign=params.get("campaign")||"homesinbelgium";
 const status=document.getElementById("status");
 const fallback=document.getElementById("fallback");
-if(target){
- try{
-  const u=new URL(target,location.origin);
-  if(!/^https?:$/.test(u.protocol)) throw new Error("Unsupported destination");
-  if(listingId)localStorage.setItem("hib:last-referral",JSON.stringify({listingId,campaign,clickedAt:new Date().toISOString()}));
-  fallback.href=u.href; status.textContent="Taking you to the listing source."; location.replace(u.href);
- }catch(e){status.textContent="The listing destination could not be opened.";}
-}else{status.textContent="No listing destination was provided.";}
+
+async function openListing(){
+  if(!listingId){status.textContent="No listing was provided.";return;}
+  try{
+    const response=await fetch("/data/listings.json",{cache:"no-store"});
+    if(!response.ok) throw new Error("Inventory unavailable");
+    const data=await response.json();
+    const listing=(data.listings||[]).find(item=>item.id===listingId);
+    if(!listing) throw new Error("Listing not found");
+
+    const destination=listing.referral?.url || listing.source?.url;
+    if(listing.isIllustrative){
+      const localUrl=listing.url || "/";
+      fallback.href=localUrl;
+      status.textContent="Opening the example listing.";
+      location.replace(localUrl);
+      return;
+    }
+    if(!destination) throw new Error("Partner destination unavailable");
+    const u=new URL(destination);
+    if(!/^https?:$/.test(u.protocol)) throw new Error("Unsupported destination");
+
+    localStorage.setItem("hib:last-referral",JSON.stringify({
+      listingId,
+      partnerId:listing.partner?.id||null,
+      campaign:campaign||listing.referral?.campaignId||"homesinbelgium",
+      mode:listing.referral?.mode||"click",
+      clickedAt:new Date().toISOString()
+    }));
+    fallback.href=u.href;
+    status.textContent="Taking you to the partner listing.";
+    location.replace(u.href);
+  }catch(error){
+    status.textContent="The listing destination could not be opened.";
+    console.warn("Homes in Belgium referral error.",error);
+  }
+}
+openListing();
 </script></body></html>
