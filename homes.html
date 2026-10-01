@@ -31,12 +31,13 @@
 <footer><div class="footer-brand">Homes <span>in</span> Belgium</div><p>Homes, neighborhoods &amp; living guides across Belgium.</p><div class="footer-links"><a href="/privacy.html">Privacy</a><a href="/contact.html">Contact</a><a href="/advertise.html">Advertise</a></div></footer>
 <script>
 let properties=[];
+function inventoryLabel(){return properties.length && properties.every(p=>p.isIllustrative)?"illustrative examples":"homes";}
 async function loadProperties(){
   try{
     const response=await fetch("/data/listings.json",{cache:"no-store"});
     if(!response.ok) throw new Error("Listing data unavailable");
     const data=await response.json();
-    properties=(data.listings||[]).filter(p=>p && p.isIllustrative !== false);
+    properties=(data.listings||[]);
   }catch(error){
     properties=[];
     console.warn("Homes in Belgium listing data could not be loaded.",error);
@@ -73,8 +74,8 @@ function render(){
  const city=$("filterCity").value,type=$("filterType").value,min=+$("filterMin").value,max=+$("filterMax").value,beds=+$("filterBeds").value,status=$("filterStatus").value,sort=$("sortBy").value,onlyFavorites=$("showFavorites").dataset.active==="true";
  const list=properties.filter(p=>(!onlyFavorites||favorites.includes(p.url))&&(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds&&(status==="all"||p.status===status));
  if(sort==="price-low") list.sort((a,b)=>a.price-b.price); else if(sort==="price-high") list.sort((a,b)=>b.price-a.price); else if(sort==="beds-high") list.sort((a,b)=>b.beds-a.beds);
- $("resultCount").textContent=list.length;
- $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.statusName+' · '+p.typeName+'</span></div><div class="result-copy"><button class="favorite-button" type="button" data-favorite="'+p.url+'" aria-label="'+(favorites.includes(p.url)?"Remove from favorites":"Save to favorites")+'">'+(favorites.includes(p.url)?"♥":"♡")+'</button><small>ILLUSTRATIVE EXAMPLE · '+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+' · '+p.areaLabel+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
+ $("resultCount").textContent=list.length; $("resultCount").parentElement.lastChild.textContent=" "+inventoryLabel();
+ $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.statusName+' · '+p.typeName+'</span></div><div class="result-copy"><button class="favorite-button" type="button" data-favorite="'+p.url+'" aria-label="'+(favorites.includes(p.url)?"Remove from favorites":"Save to favorites")+'">'+(favorites.includes(p.url)?"♥":"♡")+'</button><small>'+(p.isIllustrative?"ILLUSTRATIVE EXAMPLE":"PARTNER LISTING")+" · "+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+' · '+p.areaLabel+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
 }
 $("propertyResults").addEventListener("click",e=>{const b=e.target.closest("[data-favorite]");if(b){e.preventDefault();e.stopPropagation();toggleFavorite(b.dataset.favorite);}});
 $("showFavorites").dataset.active="false";
