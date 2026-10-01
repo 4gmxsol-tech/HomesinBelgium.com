@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Homes in Belgium Listing",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "city",
+    "type",
+    "status",
+    "price",
+    "currency",
+    "source",
+    "isIllustrative",
+    "availabilityStatus"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "cityName": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "apartment",
+        "house",
+        "land",
+        "commercial",
+        "other"
+      ]
+    },
+    "status": {
+      "enum": [
+        "sale",
+        "rent"
+      ]
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 3
+    },
+    "beds": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "baths": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "area": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "areaUnit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "image": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uri"
+    },
+    "url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "isIllustrative": {
+      "type": "boolean"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "type",
+        "name",
+        "listingId"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "listingId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "partner": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "lastVerifiedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "availabilityStatus": {
+      "enum": [
+        "active",
+        "unavailable",
+        "pending-review",
+        "illustrative"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
