@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Opening listing | Homes in Belgium</title><link rel="stylesheet" href="/styles.css"></head>
+<body><main class="article"><p class="eyebrow">HOMES IN BELGIUM</p><h1>Opening listing…</h1><p class="lead" id="status">Preparing the partner destination.</p><p><a class="button" id="fallback" href="/">Return to Homes in Belgium</a></p></main>
+<script>
+const params=new URLSearchParams(location.search);
+const target=params.get("url");
+const listingId=params.get("listing");
+const campaign=params.get("campaign")||"homesinbelgium";
+const status=document.getElementById("status");
+const fallback=document.getElementById("fallback");
+if(target){
+ try{
+  const u=new URL(target,location.origin);
+  if(!/^https?:$/.test(u.protocol)) throw new Error("Unsupported destination");
+  if(listingId)localStorage.setItem("hib:last-referral",JSON.stringify({listingId,campaign,clickedAt:new Date().toISOString()}));
+  fallback.href=u.href; status.textContent="Taking you to the listing source."; location.replace(u.href);
+ }catch(e){status.textContent="The listing destination could not be opened.";}
+}else{status.textContent="No listing destination was provided.";}
+</script></body></html>
