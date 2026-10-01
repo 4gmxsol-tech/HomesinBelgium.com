@@ -54,3 +54,38 @@ body{animation:hib-fade-in .55s ease both}
 .detail-ghent{background-image:url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=85")}
 .detail-ghent-2{background-image:url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85")}
 @media(prefers-reduced-motion:reduce){body,.site-header,.hero-copy>*,.hero-art,.section,.city-page-hero,.property-detail,.article,.listing-submit-section,.homes-grid .property,.guide-grid article,.guide-grid a,.journal-card,.result-card,.faq-grid details{animation:none!important}.sun{animation:none!important}.property,.result-card,.journal-card,.city,.guide-grid a,.city-links a,.button,.header-cta,.text-link,.property-image,.result-image,.detail-photo{transition:none!important}}
+
+
+/* Living interface layer */
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;background-image:radial-gradient(rgba(32,36,31,.8) .6px,transparent .6px);background-size:7px 7px}
+.hero{position:relative}
+.hero:before{content:"";position:absolute;width:520px;height:520px;left:-260px;top:-240px;border-radius:50%;background:radial-gradient(circle,rgba(223,125,78,.12),transparent 68%);pointer-events:none;animation:hib-orbit 12s ease-in-out infinite}
+.hero:after{content:"";position:absolute;width:420px;height:420px;right:28%;bottom:-260px;border-radius:50%;background:radial-gradient(circle,rgba(61,89,71,.11),transparent 68%);pointer-events:none;animation:hib-orbit 15s ease-in-out -4s infinite reverse}
+.hero-copy,.hero-art{position:relative;z-index:1}
+.hero-art:before{content:"";position:absolute;width:260px;height:260px;left:-70px;bottom:-110px;border:1px solid rgba(61,89,71,.14);border-radius:50%;box-shadow:0 0 0 36px rgba(61,89,71,.025),0 0 0 72px rgba(61,89,71,.018);animation:hib-pulse 7s ease-in-out infinite}
+.house-card{animation:hib-house-float 6s ease-in-out infinite}
+.tree-a{animation:hib-tree-sway 5s ease-in-out infinite;transform-origin:bottom center}
+.tree-b{animation:hib-tree-sway 6.5s ease-in-out -1.5s infinite;transform-origin:bottom center}
+.window{animation:hib-window-glow 4s ease-in-out 1.2s infinite}
+@keyframes hib-orbit{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(35px,20px,0) scale(1.08)}}
+@keyframes hib-pulse{0%,100%{transform:scale(.94);opacity:.5}50%{transform:scale(1.04);opacity:1}}
+@keyframes hib-house-float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-5px) rotate(.25deg)}}
+@keyframes hib-tree-sway{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(1.8deg)}}
+@keyframes hib-window-glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+.section-head{position:relative}
+.section-head:after{content:"";position:absolute;left:0;bottom:-14px;width:52px;height:2px;background:var(--accent);transform-origin:left;animation:hib-line-grow 1s cubic-bezier(.22,1,.36,1) .2s both}
+@keyframes hib-line-grow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+.property,.result-card,.journal-card,.guide-grid article,.guide-grid a,.faq-grid details{position:relative}
+.property:before,.result-card:before,.journal-card:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;border:1px solid transparent;transition:border-color .3s ease,box-shadow .3s ease}
+.property:hover:before,.result-card:hover:before,.journal-card:hover:before{border-color:rgba(223,125,78,.22);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.badge,.sample-label{transition:transform .25s ease,background-color .25s ease}
+.property:hover .badge{transform:translateY(-2px)}
+.ad-band{position:relative;overflow:hidden}
+.ad-band:before{content:"";position:absolute;width:260px;height:260px;right:-80px;top:-130px;border:1px solid rgba(255,255,255,.18);border-radius:50%;box-shadow:0 0 0 35px rgba(255,255,255,.035),0 0 0 70px rgba(255,255,255,.02);animation:hib-pulse 8s ease-in-out infinite}
+.ad-band>*{position:relative;z-index:1}
+.city span,.guide-grid h3,.journal-card h3,.property-copy h3,.result-copy h3{transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.city:hover span,.guide-grid article:hover h3,.guide-grid a:hover h3,.journal-card:hover h3,.property:hover h3,.result-card:hover h3{transform:translateX(3px)}
+footer{position:relative}
+footer:before{content:"";position:absolute;left:5vw;right:5vw;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.4}
+@media(max-width:700px){.hero:before{width:300px;height:300px;left:-180px;top:-100px}.hero:after{width:260px;height:260px;right:-140px}.hero-art:before{width:180px;height:180px;left:-50px}.section-head:after{bottom:-10px}}
+@media(prefers-reduced-motion:reduce){.hero:before,.hero:after,.hero-art:before,.house-card,.tree-a,.tree-b,.window,.section-head:after,.ad-band:before{animation:none!important}}
