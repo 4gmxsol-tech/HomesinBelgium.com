@@ -141,6 +141,41 @@
         "pending-review",
         "illustrative"
       ]
+    },
+    "referral": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "none",
+            "lead",
+            "click",
+            "affiliate",
+            "commission",
+            "fixed-fee"
+          ]
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "campaignId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "attribution": {
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "additionalProperties": true
