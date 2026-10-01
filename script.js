@@ -28,3 +28,22 @@ document.getElementById("searchForm").addEventListener("submit",function(e){
   if(city!=="all") params.set("city",city);
   window.location.href="/homes.html"+(params.toString()?"?"+params.toString():"");
 });
+
+/* Lightweight interaction layer for the homepage */
+const heroArt=document.querySelector(".hero-art");
+if(heroArt && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  let raf=0;
+  document.addEventListener("pointermove",e=>{
+    if(raf) return;
+    raf=requestAnimationFrame(()=>{
+      const r=heroArt.getBoundingClientRect();
+      if(r.top<window.innerHeight && r.bottom>0){
+        const x=(e.clientX-r.left)/r.width-.5;
+        const y=(e.clientY-r.top)/r.height-.5;
+        heroArt.style.transform="perspective(900px) rotateY("+x*2.2+"deg) rotateX("+(-y*1.8)+"deg)";
+      }
+      raf=0;
+    });
+  });
+  heroArt.addEventListener("pointerleave",()=>{heroArt.style.transform=""});
+}
