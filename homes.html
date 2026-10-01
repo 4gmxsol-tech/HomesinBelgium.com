@@ -83,7 +83,7 @@ if(initialBeds && [...$("filterBeds").options].some(o=>o.value===initialBeds)) $
 const initialMin=params.get("min"),initialMax=params.get("max"),initialSort=params.get("sort");
 updateFavoriteUI();
 $("applyFilters").addEventListener("click",()=>{syncUrl();render()});["filterCity","filterType","filterMin","filterMax","filterBeds"].forEach(id=>$(id).addEventListener("change",()=>{syncUrl();render()}));$("filterStatus").addEventListener("change",()=>{syncPriceControls();syncUrl();render()});$("sortBy").addEventListener("change",()=>{syncUrl();render()});
-$("clearFilters").addEventListener("click",()=>{["filterCity","filterType","filterStatus"].forEach(id=>$(id).value="all");$("filterBeds").value="0";$("sortBy").value="featured";syncPriceControls();render()});syncPriceControls();
+$("clearFilters").addEventListener("click",()=>{["filterCity","filterType","filterStatus"].forEach(id=>$(id).value="all");$("filterBeds").value="0";$("sortBy").value="featured";syncPriceControls();syncUrl();render()});syncPriceControls();
 if(initialMin && [...$("filterMin").options].some(o=>o.value===initialMin)) $("filterMin").value=initialMin;
 if(initialMax && [...$("filterMax").options].some(o=>o.value===initialMax)) $("filterMax").value=initialMax;
 if(initialSort && [...$("sortBy").options].some(o=>o.value===initialSort)) $("sortBy").value=initialSort;
