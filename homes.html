@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Search illustrative homes in Belgium by city, property type, price and bedrooms.">
+<meta name="description" content="Search homes in Belgium by city, property type, price and bedrooms.">
 <meta name="robots" content="index,follow"><link rel="canonical" href="https://homesinbelgium.com/homes.html">
 <title>Search Homes in Belgium | Homes in Belgium</title><link rel="stylesheet" href="/styles.css"></head>
 <body>
 <header class="site-header"><a class="brand" href="/"><span>Homes</span><em>in</em><strong>Belgium</strong></a><nav class="nav"><a href="/homes.html">Homes</a><a href="/#cities">Cities</a><a href="/#guides">Guides</a><a href="/journal.html">Journal</a></nav><a class="header-cta" href="/advertise.html">List a property</a></header>
 <main>
-<section class="city-page-hero"><p class="eyebrow">BELGIAN PROPERTY SEARCH</p><h1>Find the right kind of home.</h1><p>Filter the current illustrative examples by location, type, budget and bedrooms.</p></section>
+<section class="city-page-hero"><p class="eyebrow">BELGIAN PROPERTY SEARCH</p><h1>Find the right kind of home.</h1><p>Filter the current inventory by location, type, budget and bedrooms.</p></section>
 <section class="section property-search-section">
 <div class="property-search-bar" aria-label="Property filters">
 <label><span>City</span><select id="filterCity"><option value="all">Any city</option><option value="brussels">Brussels</option><option value="antwerp">Antwerp</option><option value="ghent">Ghent</option><option value="bruges">Bruges</option><option value="leuven">Leuven</option></select></label>
@@ -75,7 +75,7 @@ function render(){
  const list=properties.filter(p=>(!onlyFavorites||favorites.includes(p.url))&&(city==="all"||p.city===city)&&(type==="all"||p.type===type)&&p.price>=min&&p.price<=max&&p.beds>=beds&&(status==="all"||p.status===status));
  if(sort==="price-low") list.sort((a,b)=>a.price-b.price); else if(sort==="price-high") list.sort((a,b)=>b.price-a.price); else if(sort==="beds-high") list.sort((a,b)=>b.beds-a.beds);
  $("resultCount").textContent=list.length; $("resultCount").parentElement.lastChild.textContent=" "+inventoryLabel();
- $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.statusName+' · '+p.typeName+'</span></div><div class="result-copy"><button class="favorite-button" type="button" data-favorite="'+p.url+'" aria-label="'+(favorites.includes(p.url)?"Remove from favorites":"Save to favorites")+'">'+(favorites.includes(p.url)?"♥":"♡")+'</button><small>'+(p.isIllustrative?"ILLUSTRATIVE EXAMPLE":"PARTNER LISTING")+" · "+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+' · '+p.areaLabel+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No examples match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
+ $("propertyResults").innerHTML=list.length?list.map(p=>'<a class="result-card" href="'+p.url+'"><div class="result-image" style="background-image:url(\''+p.image+'\')"><span>'+p.statusName+' · '+p.typeName+'</span></div><div class="result-copy"><button class="favorite-button" type="button" data-favorite="'+p.url+'" aria-label="'+(favorites.includes(p.url)?"Remove from favorites":"Save to favorites")+'">'+(favorites.includes(p.url)?"♥":"♡")+'</button><small>'+(p.isIllustrative?"ILLUSTRATIVE EXAMPLE":"PARTNER LISTING")+" · "+p.cityName.toUpperCase()+'</small><h3>'+p.title+'</h3><p>'+p.beds+' bedrooms · '+p.baths+' bathroom'+(p.baths===1?'':'s')+' · '+p.areaLabel+'</p><strong>'+p.priceLabel+'</strong><em>View property ↗</em></div></a>').join(""):'<div class="empty-state"><strong>No homes match these filters.</strong><p>Try widening your budget, changing the city or selecting any property type.</p></div>';
 }
 $("propertyResults").addEventListener("click",e=>{const b=e.target.closest("[data-favorite]");if(b){e.preventDefault();e.stopPropagation();toggleFavorite(b.dataset.favorite);}});
 $("showFavorites").dataset.active="false";
