@@ -22,10 +22,10 @@ function render(items){
     document.getElementById("resetSearch").addEventListener("click",()=>{document.getElementById("type").value="all";document.getElementById("city").value="all";loadHomes().then(()=>render(homes));note.textContent="Showing selected examples. New inventory can be added as listings become available.";});
     return;
   }
-  grid.innerHTML=items.map(h=>'<article class="property"><a class="property-link" href="'+h.url+'"><div class="property-image" style="background-image:url("'+h.image+'")"><span class="badge">'+(h.type==="house"?"HOUSE":"APARTMENT")+'</span></div></a><div class="property-copy"><span class="sample-label">'+(h.isIllustrative?"ILLUSTRATIVE EXAMPLE":"PARTNER LISTING")+'</span><h3>'+h.title+'</h3><p>'+cityNames[h.city]+' · '+h.meta+'</p><div class="price">'+h.price+'</div></div></article>').join("");
+  grid.innerHTML=items.map(h=>'<article class="property"><a class="property-link" href="'+h.url+'"><div class="property-image" style="background-image:url("'+h.image+'")"><span class="badge">'+(h.type==="house"?"HOUSE":"APARTMENT")+'</span></div></a><div class="property-copy"><span class="sample-label">'+(h.isIllustrative?"ILLUSTRATIVE EXAMPLE":"PARTNER LISTING")+'</span><h3>'+h.title+'</h3><p>'+cityNames[h.city]+' · '+h.beds+' beds · '+h.baths+' bath'+(h.baths===1?'':'s')+'</p><div class="price">'+h.priceLabel+'</div></div></article>').join("");
 }
 
-render(homes);
+loadHomes().then(()=>render(homes));
 
 document.getElementById("searchForm").addEventListener("submit",function(e){
   e.preventDefault();
