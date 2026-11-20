@@ -99,4 +99,5 @@ if(initialMin && [...$("filterMin").options].some(o=>o.value===initialMin)) $("f
 if(initialMax && [...$("filterMax").options].some(o=>o.value===initialMax)) $("filterMax").value=initialMax;
 if(initialSort && [...$("sortBy").options].some(o=>o.value===initialSort)) $("sortBy").value=initialSort;
 syncUrl();render();
+loadProperties().then(()=>render());
 </script></body></html>

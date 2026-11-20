@@ -89,3 +89,34 @@ footer{position:relative}
 footer:before{content:"";position:absolute;left:5vw;right:5vw;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.4}
 @media(max-width:700px){.hero:before{width:300px;height:300px;left:-180px;top:-100px}.hero:after{width:260px;height:260px;right:-140px}.hero-art:before{width:180px;height:180px;left:-50px}.section-head:after{bottom:-10px}}
 @media(prefers-reduced-motion:reduce){.hero:before,.hero:after,.hero-art:before,.house-card,.tree-a,.tree-b,.window,.section-head:after,.ad-band:before{animation:none!important}}
+
+/* === Responsive & visual polish layer (final, appended last) === */
+html,body{overflow-x:clip}
+img,video,iframe,embed,object{max-width:100%;height:auto}
+input,select,textarea{font-size:16px}
+.homes-grid>*,.guide-grid>*,.journal-grid>*,.search-results-grid>*,.city-grid>*,.listing-grid>*,.property-detail>*,.hero>*{min-width:0}
+.nav a,.footer-links a{display:inline-flex;align-items:center;min-height:44px}
+.text-link{display:inline-flex;align-items:center;min-height:44px}
+.header-cta,.button{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+.favorite-button{min-width:44px;min-height:44px}
+.filter-actions button,.sort-control select,.reset-button{min-height:44px}
+.property,.result-card{transition:transform .25s ease,box-shadow .25s ease;box-shadow:0 2px 10px rgba(44,50,43,.04)}
+.property:hover,.result-card:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(44,50,43,.10)}
+.journal-card{box-shadow:0 2px 10px rgba(44,50,43,.04)}
+@media(max-width:760px){table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+@media(min-width:768px) and (max-width:1100px){
+.homes-grid,.guide-grid,.journal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.search{grid-template-columns:1fr 1fr auto}
+.search label{border-right:1px solid var(--line);border-bottom:0}
+.search button{height:auto}
+}
+@media(max-width:560px){
+.hero,.search,.homes-grid,.guide-grid,.journal-grid,.search-results-grid,.city-grid,.listing-grid,.form-row,.property-detail,.property-detail-gallery{grid-template-columns:1fr}
+.ad-band .button,.property-detail-copy .button,.listing-form .button{width:100%}
+.header-cta{min-height:44px}
+}
+@media(min-width:1440px){
+.property-detail{max-width:1400px}
+.article{max-width:880px}
+}
+.listing-form input,.listing-form select,.listing-form textarea{font-size:16px}
